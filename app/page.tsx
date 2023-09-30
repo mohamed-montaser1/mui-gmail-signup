@@ -1,7 +1,9 @@
+"use client";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
+import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -18,90 +20,94 @@ import Paper from "@mui/material/Paper";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import { grey } from "@mui/material/colors";
+import Image from "next/image";
+import googleImage from "./google.svg";
+import { ListItemButton } from "@mui/material";
+import { useState } from "react";
 
 export default function Home() {
+  const [showCreateAccountPopup, setShowCreateAccountPopup] =
+    useState<boolean>(false);
   return (
     <Container sx={{ height: "100vh", display: "grid", placeItems: "center" }}>
       <Box
         sx={{
-          width: "400px",
-          maxWidth: "100%",
-          minHeight: "400px",
+          width: "448px",
+          height: "500px",
+          border: `1px solid ${grey[300]}`,
+          borderRadius: "10px",
+          p: "48px 40px 36px",
         }}
       >
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            gap: 1.4,
-            alignItems: "center",
-          }}
-        >
+        <Image
+          src={googleImage}
+          alt="google"
+          width={75}
+          height={24}
+          style={{ marginInline: "auto", display: "block" }}
+        />
+        <Typography variant="h5" sx={{ textAlign: "center", mt: 2, mb: 1 }}>
+          تسجيل الدخول
+        </Typography>
+        <Typography sx={{ textAlign: "center" }} color={"GrayText"}>
+          المتابعة إلي Gmail
+        </Typography>
+        <Box sx={{ mt: "30px" }}>
           <TextField
-            label="Add Todo"
+            label="البريد الإلكتروني أو الهاتف"
             variant="outlined"
-            sx={{ mx: "auto", display: "block", width: "100%" }}
             fullWidth
           />
-          <Button variant="contained" sx={{ paddingBlock: "10px" }}>
-            Add
-          </Button>
+          <Link href="#" underline="none" sx={{ mt: 1, display: "block" }}>
+            هل نسيت البريد الإلكتروني؟
+          </Link>
         </Box>
-        <Box sx={{ position: "relative", pb: 7 }}>
-          <List sx={{ mt: 2, height: "400px", overflowY: "auto" }}>
-            {Array.from({ length: 10 }).map(() => (
-              <ListItem
-                disablePadding
-                sx={{
-                  bgcolor: grey[200],
-                  paddingInline: 2,
-                  paddingBlock: 1,
-                  mb: "5px",
-                }}
-              >
-                <ListItemText>
-                  <Typography>This is for testing</Typography>
-                </ListItemText>
-                <ListItemIcon
-                  sx={{ width: "fit-content", minWidth: "fit-content" }}
-                >
-                  <Tooltip title="Edit Todo">
-                    <IconButton>
-                      <EditIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Delete Todo">
-                    <IconButton>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Tooltip>
-                </ListItemIcon>
-              </ListItem>
-            ))}
-          </List>
-          <Paper
-            sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}
-            elevation={3}
+        <Box sx={{ marginBlock: 5 }}>
+          <Typography variant="body2" color={"GrayText"}>
+            ألا تمتلك هذا الكمبيوتر؟ استخدِم وضع الضيف لتسجيل الدخول بشكلٍ خاص.
+          </Typography>
+          <Link underline="none" sx={{ fontSize: "15px" }}>
+            مزيد من المعلومات
+          </Link>
+        </Box>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            variant="text"
+            onClick={() => setShowCreateAccountPopup((prev) => !prev)}
           >
-            <BottomNavigation showLabels>
-              <BottomNavigationAction label="Active" icon={<ActiveIcon />} />
-              <BottomNavigationAction
-                label="In Progress"
-                icon={<InProgressIcon />}
-              />
-              <BottomNavigationAction label="Complated" icon={<DoneIcon />} />
-            </BottomNavigation>
-          </Paper>
+            إنشاء حساب
+          </Button>
+          <Button variant="contained">التالي</Button>
         </Box>
+        <Paper
+          elevation={2}
+          sx={{
+            width: "fit-content",
+            height: "100px",
+            opacity: `${showCreateAccountPopup ? 1 : 0}`,
+            transition: "all 300ms linear",
+            overflowY: "auto",
+          }}
+        >
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText>لإستخدامي الشخصي</ListItemText>
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText>لطفلي</ListItemText>
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemText>للعمل أو لنشاطي التجاري</ListItemText>
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Paper>
       </Box>
     </Container>
   );
 }
-
-/**
- * Features:
- * 1- Create New Todo list (UI = done)
- * 2- Update Exist Todo
- * 3- Delete Todo
- * 4- Filter Todos By: (Complate | Active | In Progress)
- */
